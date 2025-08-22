@@ -1,4 +1,5 @@
-﻿using API_Email_Jwt_Net8.Implementations.Interfaces;
+﻿using API_Email_Jwt_Net8.DTOs;
+using API_Email_Jwt_Net8.Implementations.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,18 @@ namespace API_Email_Jwt_Net8.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpPost("confirmation/{email}/{code:int}")]
+        public async Task<ActionResult<string>> Confirmation(string email, int code)
+        {
+            var result = await _userService.Confirmation(email, code);
+            if (result != "Email confirmed successfully")
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }

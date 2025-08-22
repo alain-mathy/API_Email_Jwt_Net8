@@ -7,5 +7,6 @@ namespace API_Email_Jwt_Net8.Implementations.Interfaces
     {
         Task<IdentityUser> GetUserByEmail(string email);
         Task<IdentityUser> Register(RegisterRequest request);
+        Task<string> Confirmation(string email, int code);
     }
 }

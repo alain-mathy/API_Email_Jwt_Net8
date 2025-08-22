@@ -44,5 +44,26 @@ namespace API_Email_Jwt_Net8.Implementations.Services
             string sendEmail = await _emailService.SendEmail(request.Email, emailCode);
             return createdUser;
         }
+        public async Task<string> Confirmation(string email, int code)
+        {
+            if (string.IsNullOrEmpty(email) || code <= 0)
+            {
+                return "Invalid code provided";
+            }
+
+            var user = await GetUserByEmail(email);
+            if (user is null)
+            {
+                return "Invalid identity provided";
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code.ToString());
+            if (!result.Succeeded)
+            {
+                return "Invalid code provided";
+            }
+
+            return "Email confirmed successfully";
+        }
     }
 }
